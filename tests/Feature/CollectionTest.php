@@ -380,4 +380,18 @@ class CollectionTest extends TestCase
         $result = $col->sortDesc();
         $this->assertEqualsCanonicalizing([13, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1], $result->all());
     }
+
+    public function testAggregate()
+    {
+        $col = collect([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+        $res = $col->sum();
+        assertEquals(45, $res);
+        $res = $col->avg();
+        assertEquals(5, $res);
+        $res = $col->max();
+        assertEquals(9, $res);
+    }
+    public function testReduce()
+    {
+    }
 }
