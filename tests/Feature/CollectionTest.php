@@ -145,7 +145,7 @@ class CollectionTest extends TestCase
         );
     }
 
-    public function testFlapMap(): void
+    public function testFlatMap(): void
     {
         $collection = collect(
             [
@@ -155,7 +155,7 @@ class CollectionTest extends TestCase
                 ],
                 [
                     "name" => "Vicky",
-                    "courses" => ["ReactN", "Golang"]
+                    "courses" => ["React Native", "Golang"]
                 ],
             ]
         );
@@ -164,7 +164,7 @@ class CollectionTest extends TestCase
             $courses = $item["courses"];
             return $courses;
         });
-        assertEqualsCanonicalizing(["Next.js", "PHP", "ReactN", "Golang"], $result->all());
+        assertEqualsCanonicalizing(["Next.js", "PHP", "React Native", "Golang"], $result->all());
     }
     public function testStringRepresentation()
     {
