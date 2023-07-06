@@ -232,4 +232,60 @@ class CollectionTest extends TestCase
         assertTrue($data->has("id"));
         assertTrue($collect->contains(fn ($value, $key) => $value == 11));
     }
+    public function testGrouping(){
+        $collect = collect([
+            [
+                "name" => "Eko",
+                "dept" => "IT"
+            ],
+            [
+                "name" => "Mardhani",
+                "dept" => "IT"
+            ],
+            [
+                "name" => "Robert",
+                "dept" => "HR"
+            ]
+        ]);
+        $result = $collect->groupBy("dept");
+        assertEquals([
+            "IT" => collect([
+                [
+                    "name" => "Eko",
+                    "dept" => "IT"
+                ],
+                [
+                    "name" => "Mardhani",
+                    "dept" => "IT"
+                ]
+            ]),
+            "HR" => collect([
+                [
+                    "name" => "Robert",
+                    "dept" => "HR"
+                ]
+            ])
+        ], $result->all());
+
+        $result = $collect->groupBy(fn($value,$key)=>strtolower($value["dept"]));
+
+        assertEquals([
+            "it" => collect([
+                [
+                    "name" => "Eko",
+                    "dept" => "IT"
+                ],
+                [
+                    "name" => "Mardhani",
+                    "dept" => "IT"
+                ]
+            ]),
+            "hr" => collect([
+                [
+                    "name" => "Robert",
+                    "dept" => "HR"
+                ]
+            ])
+        ], $result->all());
+    }
 }
