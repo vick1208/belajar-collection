@@ -338,12 +338,12 @@ class CollectionTest extends TestCase
     {
         $collect = collect([1, 2, 3, 4, 5, 6, 7, 8, 9]);
         $result = $collect->first();
-        $this->assertEquals(1, $result);
+        assertEquals(1, $result);
 
         $result = $collect->first(
             fn ($value, $key) => $value > 5
         );
-        $this->assertEquals(6, $result);
+        assertEquals(6, $result);
     }
     public function testLast()
     {
@@ -370,5 +370,14 @@ class CollectionTest extends TestCase
         assertFalse($col->isEmpty());
         assertTrue($col->contains(3));
         assertTrue($col->contains(fn ($value) => $value == 4));
+    }
+    public function testOrder()
+    {
+        $col = collect([11, 13, 1, 2, 3, 4, 10, 6, 5, 8, 7, 9]);
+        $result = $col->sort();
+        $this->assertEqualsCanonicalizing([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13], $result->all());
+
+        $result = $col->sortDesc();
+        $this->assertEqualsCanonicalizing([13, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1], $result->all());
     }
 }
