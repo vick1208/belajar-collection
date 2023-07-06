@@ -318,10 +318,9 @@ class CollectionTest extends TestCase
 
         $result = $collect->skipUntil(fn ($value) => $value == 3);
         $this->assertEqualsCanonicalizing([3, 4, 5, 6, 7, 8, 9], $result->all());
-        
+
         $result = $collect->skipWhile(fn ($value) => $value < 3);
         $this->assertEqualsCanonicalizing([3, 4, 5, 6, 7, 8, 9], $result->all());
-
     }
     public function testChunk()
     {
@@ -333,5 +332,16 @@ class CollectionTest extends TestCase
         $this->assertEqualsCanonicalizing([4, 5, 6], $result->all()[1]->all());
         $this->assertEqualsCanonicalizing([7, 8, 9], $result->all()[2]->all());
         $this->assertEqualsCanonicalizing([10], $result->all()[3]->all());
+    }
+    public function testFirst()
+    {
+        $collect = collect([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+        $result = $collect->first();
+        $this->assertEquals(1, $result);
+
+        $result = $collect->first(
+            fn ($value, $key) => $value > 5
+        );
+        $this->assertEquals(6, $result);
     }
 }
