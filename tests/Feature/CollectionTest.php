@@ -9,6 +9,7 @@ use Tests\TestCase;
 
 use function PHPUnit\Framework\assertEquals;
 use function PHPUnit\Framework\assertEqualsCanonicalizing;
+use function PHPUnit\Framework\assertFalse;
 use function PHPUnit\Framework\assertTrue;
 
 class CollectionTest extends TestCase
@@ -355,5 +356,19 @@ class CollectionTest extends TestCase
             return $value < 5;
         });
         assertEquals(4, $result);
+    }
+    public function testColRandom()
+    {
+        $col = collect([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+        $res = $col->random();
+        assertTrue(in_array($res, [1, 2, 3, 4, 5, 6, 7, 8, 9]));
+    }
+    public function testCheckExist()
+    {
+        $col = collect([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+        assertTrue($col->isNotEmpty());
+        assertFalse($col->isEmpty());
+        assertTrue($col->contains(3));
+        assertTrue($col->contains(fn ($value) => $value == 4));
     }
 }
