@@ -289,4 +289,49 @@ class CollectionTest extends TestCase
             ])
         ], $result->all());
     }
+    public function testSlice()
+    {
+        $collect =  collect([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+        $res = $collect->slice(4);
+        assertEqualsCanonicalizing([5, 6, 7, 8, 9], $res->all());
+
+        $res = $collect->slice(3, 3);
+        assertEqualsCanonicalizing([4, 5, 6], $res->all());
+    }
+    public function testTake()
+    {
+        $collect = collect([1, 2, 3, 1, 2, 3, 1, 2, 3]);
+        $result = $collect->take(3);
+        assertEqualsCanonicalizing([1, 2, 3], $result->all());
+
+        $result = $collect->takeUntil(fn ($value, $key) => $value == 3);
+        assertEqualsCanonicalizing([1, 2], $result->all());
+        $result = $collect->takeWhile(fn ($value, $key) => $value < 3);
+        assertEqualsCanonicalizing([1, 2], $result->all());
+    }
+
+    public function testSkip()
+    {
+        $collect =  collect([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+        $result = $collect->skip(3);
+        $this->assertEqualsCanonicalizing([4, 5, 6, 7, 8, 9], $result->all());
+
+        $result = $collect->skipUntil(fn ($value) => $value == 3);
+        $this->assertEqualsCanonicalizing([3, 4, 5, 6, 7, 8, 9], $result->all());
+        
+        $result = $collect->skipWhile(fn ($value) => $value < 3);
+        $this->assertEqualsCanonicalizing([3, 4, 5, 6, 7, 8, 9], $result->all());
+
+    }
+    public function testChunk()
+    {
+        $collection = collect([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+
+        $result = $collection->chunk(3);
+
+        $this->assertEqualsCanonicalizing([1, 2, 3], $result->all()[0]->all());
+        $this->assertEqualsCanonicalizing([4, 5, 6], $result->all()[1]->all());
+        $this->assertEqualsCanonicalizing([7, 8, 9], $result->all()[2]->all());
+        $this->assertEqualsCanonicalizing([10], $result->all()[3]->all());
+    }
 }
