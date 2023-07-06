@@ -344,4 +344,16 @@ class CollectionTest extends TestCase
         );
         $this->assertEquals(6, $result);
     }
+    public function testLast()
+    {
+
+        $collect = collect([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+        $result = $collect->last();
+        assertEquals(9, $result);
+
+        $result = $collect->last(function ($value, $key) {
+            return $value < 5;
+        });
+        assertEquals(4, $result);
+    }
 }
