@@ -232,7 +232,8 @@ class CollectionTest extends TestCase
         assertTrue($data->has("id"));
         assertTrue($collect->contains(fn ($value, $key) => $value == 11));
     }
-    public function testGrouping(){
+    public function testGrouping()
+    {
         $collect = collect([
             [
                 "name" => "Eko",
@@ -267,7 +268,7 @@ class CollectionTest extends TestCase
             ])
         ], $result->all());
 
-        $result = $collect->groupBy(fn($value,$key)=>strtolower($value["dept"]));
+        $result = $collect->groupBy(fn ($value, $key) => strtolower($value["dept"]));
 
         assertEquals([
             "it" => collect([
